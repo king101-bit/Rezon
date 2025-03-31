@@ -6,17 +6,14 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const signUpAction = async (formData: FormData) => {
+  const name = formData.get("name")?.toString();
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
 
-  if (!email || !password) {
-    return encodedRedirect(
-      "error",
-      "/sign-up",
-      "Email and password are required",
-    );
+  if (!email || !password || !name) {
+    return encodedRedirect("error", "/sign-up", "All fields are required");
   }
 
   const { error } = await supabase.auth.signUp({
@@ -24,19 +21,25 @@ export const signUpAction = async (formData: FormData) => {
     password,
     options: {
       emailRedirectTo: `${origin}/auth/callback`,
+      data: {
+        full_name: name,
+      },
     },
   });
 
   if (error) {
-    console.error(error.code + " " + error.message);
-    return encodedRedirect("error", "/sign-up", error.message);
-  } else {
     return encodedRedirect(
-      "success",
+      "error",
       "/sign-up",
-      "Thanks for signing up! Please check your email for a verification link.",
+      error.message || "Signup failed. Please try again.",
     );
   }
+
+  return encodedRedirect(
+    "success",
+    "/confirm-email",
+    email, // Passing the email to the confirmation page
+  );
 };
 
 export const signInAction = async (formData: FormData) => {
