@@ -34,12 +34,6 @@ export const signUpAction = async (formData: FormData) => {
       error.message || "Signup failed. Please try again.",
     );
   }
-
-  return encodedRedirect(
-    "success",
-    "/confirm-email",
-    email, // Passing the email to the confirmation page
-  );
 };
 
 export const signInAction = async (formData: FormData) => {

@@ -6,7 +6,6 @@ import Link from "next/link";
 import { User } from "@supabase/supabase-js";
 import RezonLogo from "./RezonLogo";
 import { Search } from "lucide-react";
-import MovieSearch from "./MovieSearch";
 
 export default function Navigation({ user }: { user: User | null }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,11 +49,6 @@ export default function Navigation({ user }: { user: User | null }) {
           <div className="hidden lg:flex items-center space-x-4">
             {user ? (
               <>
-                {/* Search Bar */}
-                <div className="relative">
-                  <MovieSearch />
-                </div>
-
                 {/* User Profile */}
                 <div className="flex items-center space-x-2">
                   <div className="h-8 w-8 rounded-full bg-[#2C8C99] flex items-center justify-center text-white text-sm font-medium">
