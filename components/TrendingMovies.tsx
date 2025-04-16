@@ -9,8 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Skeleton } from "./ui/skeleton";
 import { Star, Calendar, Film, Clapperboard } from "lucide-react";
+import Link from "next/link";
 
 export default function TrendingMovies() {
   const [movies, setMovies] = useState<IMDBSearchMovie[] | null>(null);
@@ -94,7 +94,7 @@ function MovieCard({ movie }: { movie: IMDBSearchMovie }) {
       {/* Card Content */}
       <CardHeader className="flex-1 px-4 pt-4 pb-2">
         <CardTitle className="text-lg font-bold line-clamp-2 leading-tight">
-          {movie.primaryTitle}
+          {movie.primaryTitle || "Untitled Movie"}
         </CardTitle>
       </CardHeader>
 

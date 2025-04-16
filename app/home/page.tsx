@@ -1,9 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import TrendingMovies from "@/components/TrendingMovies";
-import MovieSearch from "@/components/MovieSearch";
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
