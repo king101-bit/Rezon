@@ -20,24 +20,26 @@ export default function TrendingMovies() {
 
   const fetchMovies = async () => {
     try {
-      const res = await axios.get("https://api.themoviedb.org/3/discover/movie", {
-        headers: {
-          accept: "application/json",
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMWQxZTI2OTc1ZDEyMmY3ZmEwMmEwMzEzZWQ3NGZlNCIsIm5iZiI6MTYwNjE1NzE2MS4wNzQsInN1YiI6IjVmYmMwMzY5Zjk0NzViMDAzZWMxZTVlMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.5TaytiPlagc2BjQVz9idWAE-FWoWtXBSpopnoFCI2H8'
+      const res = await axios.get(
+        "https://api.themoviedb.org/3/discover/movie",
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`,
+          },
+          params: {
+            include_adult: false,
+            include_video: false,
+            language: "en-US",
+            page: 1,
+            sort_by: "popularity.desc",
+          },
         },
-        params: {
-          include_adult: false,
-          include_video: false,
-          language: "en-US",
-          page: 1,
-          sort_by: "popularity.desc",
-        },
-      });
+      );
 
       setMovies(res.data.results);
-      console.log("Fetched movies:", res.data.results);
     } catch (error) {
-      console.error("Error fetching movies:", error);
+      alert("Error fetching movies:", error);
     } finally {
       setLoading(false);
     }
@@ -70,10 +72,12 @@ export default function TrendingMovies() {
                 />
               )}
               <Link href={`/movie/${movie.id}`} key={movie.id}>
-               <h3 className="mt-2 text-xl font-semibold">{movie.title}</h3>
+                <h3 className="mt-2 text-xl font-semibold">{movie.title}</h3>
               </Link>
               <p className="text-gray-900 line-clamp-2">{movie.overview}</p>
-              <p className="text-sm text-muted-foreground">{movie.release_date}</p>
+              <p className="text-sm text-muted-foreground">
+                {movie.release_date}
+              </p>
             </div>
           ))}
         </div>
