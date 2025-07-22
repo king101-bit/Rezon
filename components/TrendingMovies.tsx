@@ -39,7 +39,7 @@ export default function TrendingMovies() {
 
       setMovies(res.data.results);
     } catch (error) {
-      alert("Error fetching movies:", error);
+      alert(`Error fetching movies: ${error}`);
     } finally {
       setLoading(false);
     }
