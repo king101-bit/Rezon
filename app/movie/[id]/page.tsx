@@ -16,22 +16,25 @@ type Genre = {
 };
 
 type Props = {
-  params: Promise<{ id: string }>; 
+  params: Promise<{ id: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params; 
-  const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`,  {
+  const { id } = await params;
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
+    {
       headers: {
         accept: "application/json",
         Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`,
       },
-    });
+    },
+  );
   const movie = await res.json();
 
   return {
     title: `${movie.title} (${movie.release_date?.slice(0, 4)}) | Rezon`,
-    description: movie.overview || 'Detailed movie information and trailers.',
+    description: movie.overview || "Detailed movie information and trailers.",
     openGraph: {
       title: movie.title,
       description: movie.overview,
@@ -40,10 +43,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function MoviePage({ params }: { params: Promise<{ id: string }> }) { 
-  const { id } = await params; 
-  console.log('Movie ID', id);
-  console.log("TMDB_TOKEN:", process.env.TMDB_TOKEN);
+export default async function MoviePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
@@ -52,19 +57,22 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
         accept: "application/json",
         Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`,
       },
-    }
+    },
   );
 
-  const trailerRes = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos`, {
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`,
+  const trailerRes = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/videos`,
+    {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`,
+      },
     },
-  });
+  );
 
   const { results: videos } = await trailerRes.json();
   const trailer = videos.find(
-    (v: Video) => v.type === "Trailer" && v.site === "YouTube"
+    (v: Video) => v.type === "Trailer" && v.site === "YouTube",
   );
 
   const movie = await res.json();
@@ -88,7 +96,9 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
               </div>
             </div>
           ) : (
-            <p className="text-gray-400 italic text-center">No trailer available</p>
+            <p className="text-gray-400 italic text-center">
+              No trailer available
+            </p>
           )}
         </div>
 
@@ -101,7 +111,9 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
           <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
             <span>{movie.release_date}</span>
             <Badge>{movie.status}</Badge>
-            <Badge variant="secondary">{movie.original_language.toUpperCase()}</Badge>
+            <Badge variant="secondary">
+              {movie.original_language.toUpperCase()}
+            </Badge>
             <Badge variant="outline">{movie.runtime} mins</Badge>
           </div>
 
