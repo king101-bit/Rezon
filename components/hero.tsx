@@ -1,6 +1,7 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import AnimatedFavorite from "@/components/AnimatedFavourite";
+import Link from "next/link";
 
 const Header = () => {
   return (
@@ -19,12 +20,14 @@ const Header = () => {
               selection of classic titles and new releases, all available at
               your fingertips.
             </p>
-            <button
+            <Link href="/home">
+                        <button
               className="px-8 py-3 text-lg rounded-md text-white hover:bg-teal-700 transition-colors"
               style={{ backgroundColor: "#2C8C99", borderColor: "#2C8C99" }}
             >
               Get Started
             </button>
+            </Link>
           </div>
 
           <div className="lg:w-1/2 relative h-[600px]">

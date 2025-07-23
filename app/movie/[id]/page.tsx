@@ -1,5 +1,6 @@
 import BackButton from "@/components/ui/BackButton";
 import { Badge } from "@/components/ui/badge";
+import axios from "axios";
 import { Metadata } from "next";
 
 type Video = {
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_BEARER_TOKEN}`,
       },
     },
   );
@@ -50,32 +51,32 @@ export default async function MoviePage({
 }) {
   const { id } = await params;
 
-  const res = await fetch(
+  const res = await axios.get(
     `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
     {
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_BEARER_TOKEN}`,
       },
     },
   );
 
-  const trailerRes = await fetch(
+  const trailerRes = await axios.get(
     `https://api.themoviedb.org/3/movie/${id}/videos`,
     {
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_BEARER_TOKEN}`,
       },
     },
   );
 
-  const { results: videos } = await trailerRes.json();
+const { results: videos } = trailerRes.data;
   const trailer = videos.find(
     (v: Video) => v.type === "Trailer" && v.site === "YouTube",
   );
 
-  const movie = await res.json();
+  const movie = await res.data;
 
   return (
     <div className="min-h-screen px-4 py-10 md:px-8 lg:px-16 bg-white text-gray-900">
@@ -109,7 +110,11 @@ export default async function MoviePage({
 
           {/* Metadata */}
           <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
-            <span>{movie.release_date}</span>
+            <span>{new Intl.DateTimeFormat("en-US", {
+                   year: "numeric",
+                   month: "long",
+                   day: "numeric",
+                  }).format(new Date(movie.release_date))}</span>
             <Badge>{movie.status}</Badge>
             <Badge variant="secondary">
               {movie.original_language.toUpperCase()}
