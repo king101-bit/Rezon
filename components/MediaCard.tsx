@@ -52,7 +52,7 @@ export default function MediaCard({
         )}
 
         {overview && (
-          <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+          <div className="absolute inset-0 flex items-end bg-black/65 p-3 backdrop-blur-[2px] opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
             <p className="line-clamp-5 text-xs text-white">{overview}</p>
           </div>
         )}
