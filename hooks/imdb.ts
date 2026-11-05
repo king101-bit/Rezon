@@ -7,6 +7,7 @@ export interface Movie {
   release_date: string;
   poster_path: string | null;
   overview: string;
+  vote_average: number;
 }
 
 interface TMDBList<T> {
@@ -61,6 +62,7 @@ export interface Show {
   first_air_date: string;
   poster_path: string | null;
   overview: string;
+  vote_average: number;
 }
 
 export interface Video {
@@ -108,6 +110,9 @@ export const searchMulti = (query: string, page = 1) =>
     { query, include_adult: false, language: "en-US", page },
     0, // don't cache searches
   );
+
+export const getTrending = () =>
+  tmdb<TMDBList<Movie>>("/trending/movie/week", { language: "en-US" }, 86400);
 
 export const getMovie = (id: string) =>
   tmdb<MovieDetails>(`/movie/${id}`, {

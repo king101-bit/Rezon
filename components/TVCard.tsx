@@ -1,24 +1,23 @@
-import Image from "next/image";
-import Link from "next/link";
 import type { Show } from "@/hooks/imdb";
+import MediaCard from "./MediaCard";
 
-export default function TVCard({ show }: { show: Show }) {
+export default function TVCard({
+  show,
+  priority,
+}: {
+  show: Show;
+  priority?: boolean;
+}) {
   return (
-    <div className="border rounded-lg p-4 shadow-sm">
-      <Link href={`/tv/${show.id}`}>
-        {show.poster_path && (
-          <Image
-            src={`https://image.tmdb.org/t/p/w300${show.poster_path}`}
-            alt={show.name}
-            width={300}
-            height={450}
-            className="rounded w-full h-auto"
-          />
-        )}
-        <h3 className="mt-2 text-xl font-semibold">{show.name}</h3>
-      </Link>
-      <p className="text-gray-900 line-clamp-2">{show.overview}</p>
-      <p className="text-sm text-muted-foreground">{show.first_air_date}</p>
-    </div>
+    <MediaCard
+      type="tv"
+      href={`/tv/${show.id}`}
+      title={show.name}
+      posterPath={show.poster_path}
+      date={show.first_air_date}
+      rating={show.vote_average}
+      overview={show.overview}
+      priority={priority}
+    />
   );
 }

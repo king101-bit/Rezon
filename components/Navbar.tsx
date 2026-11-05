@@ -45,38 +45,6 @@ const Navbar = () => {
               )}
             </div>
           </div>
-
-          {/* Auth Buttons (right side) */}
-          <div className="hidden lg:flex space-x-4">
-            <Link href="/sign-up" passHref>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-4 py-2 rounded-md text-white text-sm font-medium"
-                style={{ backgroundColor: "#2C8C99", borderColor: "#2C8C99" }}
-              >
-                Get Started
-              </motion.button>
-            </Link>
-
-            <Link href="/sign-in" passHref>
-              <motion.button
-                whileHover={{
-                  backgroundColor: "#2C8C99",
-                  color: "#fff",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="px-4 py-2 rounded-md text-sm font-medium border transition-colors"
-                style={{
-                  backgroundColor: "transparent",
-                  color: "#2C8C99",
-                  borderColor: "#2C8C99",
-                }}
-              >
-                Login
-              </motion.button>
-            </Link>
-          </div>
         </div>
       </div>
 
@@ -92,22 +60,6 @@ const Navbar = () => {
               {item}
             </Link>
           ))}
-          <div className="mt-4 space-y-2">
-            <Link
-              href="/sign-up"
-              className="w-full px-3 py-2 rounded-md text-white font-medium block text-center"
-              style={{ backgroundColor: "#2C8C99" }}
-            >
-              Get Started
-            </Link>
-            <Link
-              href="/sign-in"
-              className="w-full px-3 py-2 rounded-md font-medium border block text-center"
-              style={{ color: "#2C8C99", borderColor: "#2C8C99" }}
-            >
-              Login
-            </Link>
-          </div>
         </div>
       </div>
     </nav>

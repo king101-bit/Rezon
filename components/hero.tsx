@@ -1,105 +1,96 @@
-"use client";
-import Navbar from "@/components/Navbar";
-import AnimatedFavorite from "@/components/AnimatedFavourite";
+import Image from "next/image";
 import Link from "next/link";
+import { Search } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import { getTrending, Movie } from "@/hooks/imdb";
 
-const Header = () => {
+const POSITIONS = [
+  "top-[5%] right-[8%] z-30 rotate-[5deg]",
+  "top-[15%] right-[38%] z-20 -rotate-[5deg]",
+  "top-[28%] right-[22%] z-10 rotate-[2deg]",
+];
+
+async function getPosters(): Promise<Movie[]> {
+  try {
+    const { results } = await getTrending();
+    return results.filter((m) => m.poster_path).slice(0, 3);
+  } catch {
+    return [];
+  }
+}
+
+const COLUMN_OFFSETS = ["mt-0", "mt-10", "mt-5"];
+
+export default async function Hero() {
+  const posters = (await getPosters()) ?? [];
+
+  const columns = [0, 1, 2].map((col) =>
+    posters.filter((_, i) => i % 3 === col),
+  );
+
   return (
     <>
       <Navbar />
-      <div className="py-20 min-h-screen px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center">
-          <div className="lg:w-1/2 mb-10 lg:mb-0">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-black">
-              From Classics to New Releases: Find Your <AnimatedFavorite />{" "}
-              movies
+      <section className="overflow-hidden px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-12 lg:flex-row">
+          <div className="lg:w-1/2">
+            <h1 className="mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
+              Find what to watch. Request it in one click.
             </h1>
-            <p className="text-xl mb-8 text-gray-400">
-              Ready to discover your next binge-worthy show or movie? Look no
-              further than our online streaming store, where you'll find a wide
-              selection of classic titles and new releases, all available at
-              your fingertips.
+            <p className="mb-8 text-xl text-muted-foreground">
+              Rezon is a media discovery and request app. Browse what’s
+              trending, search any movie or show, and follow each request from
+              pending to available.
             </p>
-            <Link href="/home">
-                        <button
-              className="px-8 py-3 text-lg rounded-md text-white hover:bg-teal-700 transition-colors"
-              style={{ backgroundColor: "#2C8C99", borderColor: "#2C8C99" }}
-            >
-              Get Started
-            </button>
-            </Link>
-          </div>
-
-          <div className="lg:w-1/2 relative h-[600px]">
-            <div
-              className="absolute rounded-full"
-              style={{
-                backgroundColor: "#2C8C99",
-                right: "-10%",
-                top: "0%",
-                width: "110%",
-                height: "110%",
-                zIndex: 0,
-              }}
-            />
-
-            <div className="relative h-full mb-4">
-              {/* Movie Poster 1 */}
-              <img
-                src="https://external-content.duckduckgo.com/iu/?u=https://m.media-amazon.com/images/M/MV5BZDI4ZWYwMGUtZGE1Yi00OTc5LWI3NDctMGY4ZWE4NzI4NWUwXkEyXkFqcGc@._V1_.jpg&f=1&h=500"
-                alt="Movie Poster 1"
-                className="absolute shadow-xl"
-                style={{
-                  top: "5%",
-                  right: "15%",
-                  zIndex: 3,
-                  width: "300px",
-                  height: "350px",
-                  objectFit: "fill",
-                  borderRadius: "20px",
-                  transform: "rotate(5deg)",
-                }}
-              />
-
-              {/* Movie Poster 2 */}
-              <img
-                src="https://external-content.duckduckgo.com/iu/?u=https://m.media-amazon.com/images/M/MV5BNTZlMGQ1YjEtMzVlNC00ZmMxLTk0MzgtZjdkYTU1NmUxNTQ0XkEyXkFqcGc@._V1_.jpg&f=1&h=500"
-                alt="Movie Poster 2"
-                className="absolute shadow-xl"
-                style={{
-                  top: "15%",
-                  right: "40%",
-                  zIndex: 2,
-                  width: "300px",
-                  height: "300px",
-                  objectFit: "cover",
-                  borderRadius: "20px",
-                  transform: "rotate(-5deg)",
-                }}
-              />
-
-              {/* Movie Poster 3 */}
-              <img
-                src="https://upload.wikimedia.org/wikipedia/en/thumb/e/ee/Official_cover_art_for_A_Tribe_Called_Judah_movie_2023.jpg/220px-Official_cover_art_for_A_Tribe_Called_Judah_movie_2023.jpg"
-                alt="Movie Poster 3"
-                className="absolute shadow-xl"
-                style={{
-                  top: "25%",
-                  right: "25%",
-                  zIndex: 1,
-                  width: "300px",
-                  height: "300px",
-                  objectFit: "cover",
-                  borderRadius: "20px",
-                  transform: "rotate(2deg)",
-                }}
-              />
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/home"
+                className="rounded-md bg-[#2C8C99] px-8 py-3 text-lg text-white transition-colors hover:bg-[#237681]"
+              >
+                Browse trending
+              </Link>
+              <Link
+                href="/search"
+                className="inline-flex items-center gap-2 rounded-md border px-8 py-3 text-lg transition-colors hover:bg-muted"
+              >
+                <Search className="h-5 w-5" />
+                Search titles
+              </Link>
             </div>
           </div>
+
+          {posters.length > 0 && (
+            <div className="w-full max-w-md lg:w-1/2 lg:max-w-lg">
+              <div className="grid grid-cols-3 gap-3 [mask-image:linear-gradient(to_bottom,black_65%,transparent)] md:gap-4">
+                {columns.map((col, c) => (
+                  <div
+                    key={c}
+                    className={`flex flex-col gap-3 md:gap-4 ${COLUMN_OFFSETS[c]}`}
+                  >
+                    {col.map((m, r) => (
+                      <Link
+                        key={m.id}
+                        href={`/movie/${m.id}`}
+                        className="group block overflow-hidden rounded-xl shadow-lg ring-1 ring-border"
+                      >
+                        <Image
+                          src={`https://image.tmdb.org/t/p/w342${m.poster_path}`}
+                          alt={m.title}
+                          width={342}
+                          height={513}
+                          priority={r === 0}
+                          sizes="(min-width: 1024px) 180px, 30vw"
+                          className="aspect-[2/3] h-auto w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </Link>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      </section>
     </>
   );
-};
-
-export default Header;
+}

@@ -1,9 +1,8 @@
 import { ChartNoAxesCombined, Tv } from "lucide-react";
 import TVCard from "./TVCard";
 import { getPopularTV, getTopRatedTV } from "@/hooks/imdb";
-
 const GRID =
-  "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6";
+  "grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6";
 
 export default async function TrendingShows() {
   const [popular, topRated] = await Promise.all([
@@ -19,7 +18,7 @@ export default async function TrendingShows() {
           Popular Shows
         </h2>
         <div className={GRID}>
-          {popular.results.slice(0, 10).map((s) => (
+          {popular.results.slice(0, 13).map((s) => (
             <TVCard key={s.id} show={s} />
           ))}
         </div>

@@ -3,7 +3,7 @@ import MovieCard from "./MovieCard";
 import { getPopular, getTopRated } from "@/hooks/imdb";
 
 const GRID =
-  "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6";
+  "grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6";
 
 export default async function TrendingMovies() {
   const [popular, topRated] = await Promise.all([getPopular(), getTopRated()]);
@@ -16,7 +16,7 @@ export default async function TrendingMovies() {
           Popular
         </h2>
         <div className={GRID}>
-          {popular.results.slice(0, 10).map((m) => (
+          {popular.results.slice(0, 12).map((m) => (
             <MovieCard key={m.id} movie={m} />
           ))}
         </div>

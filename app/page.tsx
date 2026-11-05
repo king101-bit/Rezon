@@ -1,15 +1,13 @@
 import Hero from "@/components/hero";
-import FreeSection from "@/components/FreeSection";
-import FeaturedMovies from "@/components/FeaturedMovies";
-import CategoriesSection from "@/components/CategoriesSection";
+import FeaturesSection from "@/components/FeaturesSection";
+import HowItWorks from "@/components/HowItWorks";
 
 export default async function Home() {
   return (
     <>
       <Hero />
-      <FreeSection />
-      <FeaturedMovies />
-      <CategoriesSection />
+      <FeaturesSection />
+      <HowItWorks />
     </>
   );
 }
