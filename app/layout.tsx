@@ -1,11 +1,15 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "Rezon",
-  description: "A movie discovery app",
+export const metadata: Metadata = {
+  title: {
+    default: "Rezon – Discover movies & TV",
+    template: "%s | Rezon",
+  },
+  description:
+    "Discover new movies and TV shows, and search the titles you love.",
 };
-
 const inter = Inter({
   display: "swap",
   subsets: ["latin"],
